@@ -5,8 +5,6 @@ from flask import render_template, flash, redirect, jsonify
 from app import app, db
 from app.forms import AddUserForm
 from app.models import User
-from werkzeug.utils import secure_filename
-
 
 
 @app.route('/')
@@ -24,12 +22,12 @@ def add_user():
         uid = uuid.uuid4()
         filename = '.'.join([str(uid), 'jpg'])
         image.save(os.path.join(
-            os.getcwd(), 'photos', filename
+            os.getcwd(), 'static/photos', filename
         ))
         new_user = User(first_name=form.first_name.data, last_name=form.last_name.data, uid=str(uid))
         db.session.add(new_user)
         db.session.commit()
-        flash('Login requested for user {}'.format(form.first_name.data))
+        flash('Added new user: {}'.format(form.first_name.data))
         return redirect('/index')
     return render_template('add_user.html', title='Add New User', form=form)
 
