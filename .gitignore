@@ -1,0 +1,7 @@
+*.pyc
+*.db
+.idea
+venv
+migrations
+__pycache__
+app/__pycache__

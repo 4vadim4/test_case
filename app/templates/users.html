@@ -1,9 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Users:</h1>
-    <br>
-    {% for user in users %}
-    <p>{{ user.first_name }} {{ user.last_name }} - <a href="{{ url_for('user', uid=user.uid) }}">profile</a></p>
-    {% endfor %}
+    {% if users %}
+        <h1>Users:</h1>
+        <br>
+        {% for user in users %}
+        <p>{{ user.first_name }} {{ user.last_name }} - <a href="{{ url_for('user', uid=user.uid) }}">profile</a></p>
+        {% endfor %}
+    {% else %}
+        <h1>Users are absent</h1>
+        <p>add new users please</p>
+    {% endif %}
 {% endblock %}
