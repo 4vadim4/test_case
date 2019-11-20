@@ -4,6 +4,6 @@
     <h1>{{ user.first_name.title() }} {{ user.last_name.title() }}</h1>
     <br>
     <p>
-        <img src="{{ url_for('static', filename=photo )}}" alt={{ user.first_name }}>
+        <img src="{{ url_for('static', filename='photos/' + photo )}}" alt={{ user.first_name }}>
     </p>
 {% endblock %}

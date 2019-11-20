@@ -1,10 +1,19 @@
-# -*- coding: utf-8 -*-
 import os
 import uuid
 from flask import render_template, flash, redirect, jsonify
-from app import app, db
+from app import app, db, celery
 from app.forms import AddUserForm
 from app.models import User
+from PIL import Image
+
+
+def photo_saving(image, photo_name):
+    size = (200, 200)
+    img = Image.open(image)
+    img.thumbnail(size)
+    img.save(os.path.join(
+        os.getcwd(), 'app/static/photos', photo_name
+    ))
 
 
 @app.route('/')
@@ -21,9 +30,9 @@ def add_user():
         image = form.photo.data
         uid = uuid.uuid4()
         filename = '.'.join([str(uid), 'jpg'])
-        image.save(os.path.join(
-            os.getcwd(), 'static/photos', filename
-        ))
+
+        photo_saving(image, filename)
+
         new_user = User(first_name=form.first_name.data, last_name=form.last_name.data, uid=str(uid))
         db.session.add(new_user)
         db.session.commit()
